@@ -34,20 +34,20 @@ public class UsuarioService {
 
     /**
      * Busca un usuario por su ID.
-     * @param id ID del usuario a buscar
+     * @param id_usuario ID del usuario a buscar
      * @return Optional que puede contener el usuario si se encuentra
      */
-    public Optional<Usuario> obtenerUsuarioPorId(Long id) {
-        return usuarioRepository.findById(id);
+    public Optional<Usuario> obtenerUsuarioPorId(Long id_usuario) {
+        return usuarioRepository.findById(id_usuario);
     }
 
     /**
      * Busca un usuario por su email.
-     * @param email Email del usuario a buscar
+     * @param correo Email del usuario a buscar
      * @return Optional que puede contener el usuario si se encuentra
      */
-    public Optional<Usuario> obtenerUsuarioPorEmail(String email) {
-        return usuarioRepository.findByEmail(email);
+    public Optional<Usuario> obtenerUsuarioPorCorreo(String correo) {
+        return usuarioRepository.findByEmail(correo);
     }
 
     /**
@@ -59,8 +59,8 @@ public class UsuarioService {
     @Transactional
     public Usuario guardarUsuario(Usuario usuario) {
         // Verificar si ya existe un usuario con el mismo email
-        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
-            throw new IllegalArgumentException("Ya existe un usuario con el email: " + usuario.getEmail());
+        if (usuarioRepository.existsByEmail(usuario.getCorreo())) {
+            throw new IllegalArgumentException("Ya existe un usuario con el email: " + usuario.getCorreo());
         }
         
         // Aquí se podría agregar lógica para encriptar la contraseña antes de guardar
@@ -71,34 +71,31 @@ public class UsuarioService {
 
     /**
      * Actualiza un usuario existente.
-     * @param id ID del usuario a actualizar
+     * @param id_usuario ID del usuario a actualizar
      * @param usuarioActualizado Datos actualizados del usuario
      * @return El usuario actualizado
      * @throws IllegalArgumentException si el usuario no existe
      */
     @Transactional
-    public Usuario actualizarUsuario(Long id, Usuario usuarioActualizado) {
-        return usuarioRepository.findById(id)
+    public Usuario actualizarUsuario(Long id_usuario, Usuario usuarioActualizado) {
+        return usuarioRepository.findById(id_usuario)
             .map(usuarioExistente -> {
                 usuarioExistente.setNombre(usuarioActualizado.getNombre());
-                usuarioExistente.setApellido(usuarioActualizado.getApellido());
-                usuarioExistente.setTelefono(usuarioActualizado.getTelefono());
-                usuarioExistente.setRol(usuarioActualizado.getRol());
-                usuarioExistente.setActivo(usuarioActualizado.isActivo());
+              
                 
                 // Si se proporciona un nuevo email, verificar que no exista ya
-                if (!usuarioExistente.getEmail().equals(usuarioActualizado.getEmail())) {
-                    if (usuarioRepository.existsByEmail(usuarioActualizado.getEmail())) {
-                        throw new IllegalArgumentException("Ya existe un usuario con el email: " + usuarioActualizado.getEmail());
+                if (!usuarioExistente.getCorreo().equals(usuarioActualizado.getCorreo())) {
+                    if (usuarioRepository.existsByEmail(usuarioActualizado.getCorreo())) {
+                        throw new IllegalArgumentException("Ya existe un usuario con el email: " + usuarioActualizado.getCorreo());
                     }
-                    usuarioExistente.setEmail(usuarioActualizado.getEmail());
+                    usuarioExistente.setCorreo(null);(usuarioActualizado.getCorreo());
                 }
                 
                 // Si se proporciona una nueva contraseña, actualizarla
                 // Aquí se podría agregar lógica para encriptar la contraseña
-                if (usuarioActualizado.getPassword() != null && !usuarioActualizado.getPassword().isEmpty()) {
+                if (usuarioActualizado.getContrasena() != null && !usuarioActualizado.getContrasena().isEmpty()) {
                     // usuarioExistente.setPassword(passwordEncoder.encode(usuarioActualizado.getPassword()));
-                    usuarioExistente.setPassword(usuarioActualizado.getPassword());
+                    usuarioExistente.setContrasena(null);(usuarioActualizado.getContrasena());
                 }
                 
                 return usuarioRepository.save(usuarioExistente);
@@ -108,31 +105,15 @@ public class UsuarioService {
 
     /**
      * Elimina un usuario por su ID.
-     * @param id ID del usuario a eliminar
+     * @param id_usuario ID del usuario a eliminar
      * @throws IllegalArgumentException si el usuario no existe
      */
     @Transactional
-    public void eliminarUsuario(Long id) {
-        if (!usuarioRepository.existsById(id)) {
-            throw new IllegalArgumentException("No se encontró usuario con ID: " + id);
+    public void eliminarUsuario(Long id_usario) {
+        if (!usuarioRepository.existsById(id_usario)) {
+            throw new IllegalArgumentException("No se encontró usuario con ID: " + id_usario);
         }
-        usuarioRepository.deleteById(id);
-    }
-
-    /**
-     * Desactiva un usuario en lugar de eliminarlo físicamente.
-     * @param id ID del usuario a desactivar
-     * @return El usuario desactivado
-     * @throws IllegalArgumentException si el usuario no existe
-     */
-    @Transactional
-    public Usuario desactivarUsuario(Long id) {
-        return usuarioRepository.findById(id)
-            .map(usuario -> {
-                usuario.setActivo(false);
-                return usuarioRepository.save(usuario);
-            })
-            .orElseThrow(() -> new IllegalArgumentException("No se encontró usuario con ID: " + id));
+        usuarioRepository.deleteById(id_usario);
     }
 
     /**
