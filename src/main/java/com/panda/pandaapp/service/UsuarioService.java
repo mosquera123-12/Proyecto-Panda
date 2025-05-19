@@ -47,7 +47,7 @@ public class UsuarioService {
      * @return Optional que puede contener el usuario si se encuentra
      */
     public Optional<Usuario> obtenerUsuarioPorCorreo(String correo) {
-        return usuarioRepository.findByEmail(correo);
+        return usuarioRepository.findByCorreo(correo);
     }
 
     /**
@@ -59,7 +59,7 @@ public class UsuarioService {
     @Transactional
     public Usuario guardarUsuario(Usuario usuario) {
         // Verificar si ya existe un usuario con el mismo email
-        if (usuarioRepository.existsByEmail(usuario.getCorreo())) {
+        if (usuarioRepository.existsByCorreo(usuario.getCorreo())) {
             throw new IllegalArgumentException("Ya existe un usuario con el email: " + usuario.getCorreo());
         }
         
@@ -82,25 +82,24 @@ public class UsuarioService {
             .map(usuarioExistente -> {
                 usuarioExistente.setNombre(usuarioActualizado.getNombre());
               
-                
                 // Si se proporciona un nuevo email, verificar que no exista ya
                 if (!usuarioExistente.getCorreo().equals(usuarioActualizado.getCorreo())) {
-                    if (usuarioRepository.existsByEmail(usuarioActualizado.getCorreo())) {
+                    if (usuarioRepository.existsByCorreo(usuarioActualizado.getCorreo())) {
                         throw new IllegalArgumentException("Ya existe un usuario con el email: " + usuarioActualizado.getCorreo());
                     }
-                    usuarioExistente.setCorreo(null);(usuarioActualizado.getCorreo());
+                    usuarioExistente.setCorreo(usuarioActualizado.getCorreo());
                 }
                 
                 // Si se proporciona una nueva contraseña, actualizarla
                 // Aquí se podría agregar lógica para encriptar la contraseña
                 if (usuarioActualizado.getContrasena() != null && !usuarioActualizado.getContrasena().isEmpty()) {
                     // usuarioExistente.setPassword(passwordEncoder.encode(usuarioActualizado.getPassword()));
-                    usuarioExistente.setContrasena(null);(usuarioActualizado.getContrasena());
+                    usuarioExistente.setContrasena(usuarioActualizado.getContrasena());
                 }
                 
                 return usuarioRepository.save(usuarioExistente);
             })
-            .orElseThrow(() -> new IllegalArgumentException("No se encontró usuario con ID: " + id));
+            .orElseThrow(() -> new IllegalArgumentException("No se encontró usuario con ID: " + id_usuario));
     }
 
     /**
@@ -109,28 +108,19 @@ public class UsuarioService {
      * @throws IllegalArgumentException si el usuario no existe
      */
     @Transactional
-    public void eliminarUsuario(Long id_usario) {
-        if (!usuarioRepository.existsById(id_usario)) {
-            throw new IllegalArgumentException("No se encontró usuario con ID: " + id_usario);
+    public void eliminarUsuario(Long id_usuario) {
+        if (!usuarioRepository.existsById(id_usuario)) {
+            throw new IllegalArgumentException("No se encontró usuario con ID: " + id_usuario);
         }
-        usuarioRepository.deleteById(id_usario);
+        usuarioRepository.deleteById(id_usuario);
     }
 
     /**
-     * Busca usuarios por nombre o apellido.
-     * @param texto Texto a buscar en nombre o apellido
+     * Busca usuarios por nombre.
+     * @param texto Texto a buscar en nombre
      * @return Lista de usuarios que coinciden con la búsqueda
      */
     public List<Usuario> buscarUsuariosPorNombreOApellido(String texto) {
-        return usuarioRepository.findByNombreContainingOrApellidoContaining(texto, texto);
-    }
-
-    /**
-     * Busca usuarios por rol.
-     * @param rol Rol a buscar
-     * @return Lista de usuarios con el rol especificado
-     */
-    public List<Usuario> buscarUsuariosPorRol(String rol) {
-        return usuarioRepository.findByRol(rol);
+        return usuarioRepository.findByNombreContaining(texto);
     }
 }

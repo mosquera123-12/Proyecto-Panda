@@ -40,12 +40,12 @@ public class UsuarioController {
 
     /**
      * Obtiene un usuario por su ID.
-     * @param id ID del usuario
+     * @param id_usuario ID del usuario
      * @return Usuario encontrado o error 404 si no existe
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> obtenerPorId(@PathVariable Long id) {
-        return usuarioService.obtenerUsuarioPorId(id)
+    public ResponseEntity<Usuario> obtenerPorId(@PathVariable Long id_usario) {
+        return usuarioService.obtenerUsuarioPorId(id_usario)
                 .map(usuario -> new ResponseEntity<>(usuario, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -74,9 +74,9 @@ public class UsuarioController {
      * @return Usuario actualizado
      */
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
+    public ResponseEntity<?> actualizarUsuario(@PathVariable Long id_usario, @RequestBody Usuario usuario) {
         try {
-            Usuario usuarioActualizado = usuarioService.actualizarUsuario(id, usuario);
+            Usuario usuarioActualizado = usuarioService.actualizarUsuario(id_usario, usuario);
             return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             Map<String, String> respuesta = new HashMap<>();
@@ -90,28 +90,11 @@ public class UsuarioController {
      * @param id ID del usuario a eliminar
      * @return Respuesta sin contenido (204) si se eliminó correctamente
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> eliminarUsuario(@PathVariable Long id) {
+    @DeleteMapping("/{id_usuario}")
+    public ResponseEntity<?> eliminarUsuario(@PathVariable Long id_usario) {
         try {
-            usuarioService.eliminarUsuario(id);
+            usuarioService.eliminarUsuario(id_usario);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (IllegalArgumentException e) {
-            Map<String, String> respuesta = new HashMap<>();
-            respuesta.put("mensaje", e.getMessage());
-            return new ResponseEntity<>(respuesta, HttpStatus.NOT_FOUND);
-        }
-    }
-
-    /**
-     * Desactiva un usuario en lugar de eliminarlo físicamente.
-     * @param id ID del usuario a desactivar
-     * @return Usuario desactivado
-     */
-    @PatchMapping("/{id}/desactivar")
-    public ResponseEntity<?> desactivarUsuario(@PathVariable Long id) {
-        try {
-            Usuario usuario = usuarioService.desactivarUsuario(id);
-            return new ResponseEntity<>(usuario, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             Map<String, String> respuesta = new HashMap<>();
             respuesta.put("mensaje", e.getMessage());
@@ -127,17 +110,6 @@ public class UsuarioController {
     @GetMapping("/buscar")
     public ResponseEntity<List<Usuario>> buscarPorNombreOApellido(@RequestParam String query) {
         List<Usuario> usuarios = usuarioService.buscarUsuariosPorNombreOApellido(query);
-        return new ResponseEntity<>(usuarios, HttpStatus.OK);
-    }
-
-    /**
-     * Busca usuarios por rol.
-     * @param rol Rol a buscar
-     * @return Lista de usuarios con el rol especificado
-     */
-    @GetMapping("/rol/{rol}")
-    public ResponseEntity<List<Usuario>> buscarPorRol(@PathVariable String rol) {
-        List<Usuario> usuarios = usuarioService.buscarUsuariosPorRol(rol);
         return new ResponseEntity<>(usuarios, HttpStatus.OK);
     }
 }
