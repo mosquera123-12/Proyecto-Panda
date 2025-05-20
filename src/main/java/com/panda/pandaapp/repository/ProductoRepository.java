@@ -16,5 +16,9 @@ import org.springframework.stereotype.Repository;
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
     Optional<Producto> findById(Long id_producto);
+
+    boolean existsById(Long id_producto);
+
+    void deleteById(Long id_producto);
     
 }
