@@ -86,7 +86,7 @@ public class ProductoController {
      * @return Producto con stock actualizado
      */
     @PutMapping("/{id_producto}")
-    public ResponseEntity<Producto> actualizarProductos(@PathVariable int id_producto, @RequestBody Producto producto) {
+    public ResponseEntity<Producto> actualizarProductos(@PathVariable Long id_producto, @RequestBody Producto producto) {
         Producto productoActualizado = productoService.actualizarProducto(id_producto, producto);
         
         if (productoActualizado != null) {
@@ -102,8 +102,8 @@ public class ProductoController {
      * @return Mensaje de confirmación
      */
     @DeleteMapping("/{id_producto}")
-    public ResponseEntity<Void> eliminarProducto(@PathVariable int id_producto) {
-        boolean eliminado = productoService.eliminarProducto(id_producto);
+    public ResponseEntity<Void> eliminarProducto(@PathVariable Long id_producto) {
+        boolean eliminado = productoService.eliminarProducto((long) id_producto);
         
         if (eliminado) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
