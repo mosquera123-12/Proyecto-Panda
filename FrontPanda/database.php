@@ -1,8 +1,8 @@
 <?php
 $servername = 'localhost:3306';
 $username = 'root';
-$password = 'Sebas1127*';
-$database = 'casheasy';
+$password = '';
+$database = 'MyPandabd';
 
 // Crea una conexión a la base de datos
 $conn = new mysqli($servername, $username, $password, $database);
