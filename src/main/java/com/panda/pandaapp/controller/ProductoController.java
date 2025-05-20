@@ -30,6 +30,7 @@ public class ProductoController {
      * @param soloActivos Parámetro opcional para filtrar solo productos activos
      * @return Lista de productos
      */
+    @SuppressWarnings("null")
     @GetMapping
     public ResponseEntity<List<Producto>> obtenerTodos() {
        try {
@@ -50,7 +51,7 @@ public class ProductoController {
     */
 
     @GetMapping("/{id}")
-    public ResponseEntity<Producto> obtenerProductoPorId(@PathVariable int id_producto) {
+    public ResponseEntity<Producto> obtenerProductoPorId(@PathVariable Long id_producto) {
         Producto producto = productoService.obtenerProductoPorId(id_producto);
         if(producto != null){
             return ResponseEntity.ok(producto);

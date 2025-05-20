@@ -4,7 +4,8 @@ import com.panda.pandaapp.model.Producto;
 import com.panda.pandaapp.repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+//Elimina esta linea
+//import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +38,7 @@ public class ProductoService {
      * @param id ID del producto
      * @return Optional con el producto encontrado o vacío si no existe
      */
-    public Producto obtenerProductoPorId(int id_producto) {
+    public Producto obtenerProductoPorId(Long id_producto) {
         return productoRepository.findById(id_producto).orElse(null);
     }
 
