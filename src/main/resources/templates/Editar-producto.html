@@ -40,8 +40,8 @@
 
         <div class="card">
             <div class="card-body">
-                <form th:action="@{/productos/{id}/actualizar(id=${producto.id_producto})}" th:object="${producto}" method="post">
-                    <input type="hidden" th:field="*{id_producto}">
+                <form th:action="@{/productos/{id}/actualizar(id=${producto.id})}" th:object="${producto}" method="post">
+                    <input type="hidden" th:field="*{id}">
                     
                     <div class="mb-3">
                         <label for="nombre_producto" class="form-label">Nombre del Producto</label>

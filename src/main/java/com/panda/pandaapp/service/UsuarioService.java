@@ -37,8 +37,8 @@ public class UsuarioService {
      * @param id_usuario ID del usuario a buscar
      * @return Optional que puede contener el usuario si se encuentra
      */
-    public Optional<Usuario> obtenerUsuarioPorId(Long id_usuario) {
-        return usuarioRepository.findById(id_usuario);
+    public Optional<Usuario> obtenerUsuarioPorId(Long id) {
+        return usuarioRepository.findById(id);
     }
 
     /**
@@ -77,8 +77,8 @@ public class UsuarioService {
      * @throws IllegalArgumentException si el usuario no existe
      */
     @Transactional
-    public Usuario actualizarUsuario(Long id_usuario, Usuario usuarioActualizado) {
-        return usuarioRepository.findById(id_usuario)
+    public Usuario actualizarUsuario(Long id, Usuario usuarioActualizado) {
+        return usuarioRepository.findById(id)
             .map(usuarioExistente -> {
                 usuarioExistente.setNombre(usuarioActualizado.getNombre());
               
@@ -99,20 +99,20 @@ public class UsuarioService {
                 
                 return usuarioRepository.save(usuarioExistente);
             })
-            .orElseThrow(() -> new IllegalArgumentException("No se encontró usuario con ID: " + id_usuario));
+            .orElseThrow(() -> new IllegalArgumentException("No se encontró usuario con ID: " + id));
     }
 
     /**
      * Elimina un usuario por su ID.
-     * @param id_usuario ID del usuario a eliminar
+     * @param id ID del usuario a eliminar
      * @throws IllegalArgumentException si el usuario no existe
      */
     @Transactional
-    public void eliminarUsuario(Long id_usuario) {
-        if (!usuarioRepository.existsById(id_usuario)) {
-            throw new IllegalArgumentException("No se encontró usuario con ID: " + id_usuario);
+    public void eliminarUsuario(Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new IllegalArgumentException("No se encontró usuario con ID: " + id);
         }
-        usuarioRepository.deleteById(id_usuario);
+        usuarioRepository.deleteById(id);
     }
 
     /**

@@ -38,8 +38,8 @@ public class ProductoService {
      * @param id ID del producto
      * @return Optional con el producto encontrado o vacío si no existe
      */
-    public Producto obtenerProductoPorId(Long id_producto) {
-        return productoRepository.findById(id_producto).orElse(null);
+    public Producto obtenerProductoPorId(Long id) {
+        return productoRepository.findById(id).orElse(null);
     }
 
    
@@ -58,8 +58,8 @@ public class ProductoService {
      * @param productoActualizado Producto con los datos actualizados
      * @return Producto actualizado o null si no se encuentra el producto
      */
-    public Producto actualizarProducto(Long id_prodcto, Producto productoActualizado) {
-        Optional<Producto> productoExistente = productoRepository.findById(id_prodcto);
+    public Producto actualizarProducto(Long id, Producto productoActualizado) {
+        Optional<Producto> productoExistente = productoRepository.findById(id);
         
         if (productoExistente.isPresent()) {
             Producto producto = productoExistente.get();
@@ -79,9 +79,9 @@ public class ProductoService {
      * @param id ID del producto a eliminar
      * @return true si el producto fue eliminado, false si no se encontró
      */
-    public boolean eliminarProducto(Long id_producto) {
-        if (productoRepository.existsById(id_producto)) {
-            productoRepository.deleteById(id_producto);
+    public boolean eliminarProducto(Long id) {
+        if (productoRepository.existsById(id)) {
+            productoRepository.deleteById(id);
             return true;
         }
         return false;

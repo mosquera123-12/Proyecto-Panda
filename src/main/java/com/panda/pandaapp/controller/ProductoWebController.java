@@ -72,9 +72,9 @@ public class ProductoWebController {
      * Actualiza un producto existente.
      */
     @PostMapping("/{id}/actualizar")
-    public String actualizarProducto(@PathVariable("id") Long id_prodcto, @ModelAttribute("producto") Producto producto, 
+    public String actualizarProducto(@PathVariable("id") Long id, @ModelAttribute("producto") Producto producto, 
                                    RedirectAttributes redirectAttributes) {
-        Producto productoActualizado = productoService.actualizarProducto(id_prodcto, producto);
+        Producto productoActualizado = productoService.actualizarProducto(id, producto);
         if (productoActualizado != null) {
             redirectAttributes.addFlashAttribute("mensaje", "Producto actualizado con éxito");
         } else {
@@ -87,8 +87,8 @@ public class ProductoWebController {
      * Elimina un producto existente.
      */
     @GetMapping("/{id}/eliminar")
-    public String eliminarProducto(@PathVariable("id") Long id_producto, RedirectAttributes redirectAttributes) {
-        boolean eliminado = productoService.eliminarProducto(id_producto);
+    public String eliminarProducto(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+        boolean eliminado = productoService.eliminarProducto(id);
         if (eliminado) {
             redirectAttributes.addFlashAttribute("mensaje", "Producto eliminado con éxito");
         } else {

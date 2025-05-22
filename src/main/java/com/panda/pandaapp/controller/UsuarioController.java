@@ -40,12 +40,12 @@ public class UsuarioController {
 
     /**
      * Obtiene un usuario por su ID.
-     * @param id_usuario ID del usuario
+     * @param id ID del usuario
      * @return Usuario encontrado o error 404 si no existe
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> obtenerPorId(@PathVariable Long id_usario) {
-        return usuarioService.obtenerUsuarioPorId(id_usario)
+    public ResponseEntity<Usuario> obtenerPorId(@PathVariable Long id) {
+        return usuarioService.obtenerUsuarioPorId(id)
                 .map(usuario -> new ResponseEntity<>(usuario, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -74,9 +74,9 @@ public class UsuarioController {
      * @return Usuario actualizado
      */
     @PutMapping("/{id}")
-    public ResponseEntity<?> actualizarUsuario(@PathVariable Long id_usario, @RequestBody Usuario usuario) {
+    public ResponseEntity<?> actualizarUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
         try {
-            Usuario usuarioActualizado = usuarioService.actualizarUsuario(id_usario, usuario);
+            Usuario usuarioActualizado = usuarioService.actualizarUsuario(id, usuario);
             return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             Map<String, String> respuesta = new HashMap<>();
@@ -90,10 +90,10 @@ public class UsuarioController {
      * @param id ID del usuario a eliminar
      * @return Respuesta sin contenido (204) si se eliminó correctamente
      */
-    @DeleteMapping("/{id_usuario}")
-    public ResponseEntity<?> eliminarUsuario(@PathVariable Long id_usario) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> eliminarUsuario(@PathVariable Long id) {
         try {
-            usuarioService.eliminarUsuario(id_usario);
+            usuarioService.eliminarUsuario(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (IllegalArgumentException e) {
             Map<String, String> respuesta = new HashMap<>();
