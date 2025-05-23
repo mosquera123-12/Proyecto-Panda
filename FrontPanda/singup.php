@@ -1,5 +1,4 @@
 <?php
-
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -8,25 +7,31 @@ require_once 'database.php';
 $message = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!empty($_POST['username']) && !empty($_POST['password'])) {
-        // Se omite la verificación de "confirm_password"
-        $sql = "INSERT INTO usuarios (username, password) VALUES (?, ?)";
+    // Verificar que todos los campos estén completos
+    if (!empty($_POST['nombre']) && !empty($_POST['username']) && !empty($_POST['correo']) && !empty($_POST['password'])) {
+
+        $sql = "INSERT INTO usuarios (nombre, usuario, correo, contrasena) VALUES (?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
+
+        $nombre = $_POST['nombre'];
+        $usuario = $_POST['username'];
+        $correo = $_POST['correo'];
         $password = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
-        // Se utilizan parámetros con "?" en lugar de ":nombre" para la consulta
-        $stmt->bind_param("ss", $_POST['username'], $password);
+        $stmt->bind_param("ssss", $nombre, $usuario, $correo, $password);
 
         if ($stmt->execute()) {
-            $message = 'Usuario registrado correctamente';
+            // Redirige automáticamente a index.html
+            header("Location: index.html");
+            exit();
         } else {
-            $message = 'Error al registrar el usuario';
+            $message = 'Error al registrar el usuario: ' . $stmt->error;
         }
     } else {
         $message = 'Todos los campos son obligatorios.';
     }
 }
 $conn->close();
-
 ?>
+
 <p><?php echo $message; ?></p>

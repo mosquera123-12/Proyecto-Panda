@@ -2,10 +2,13 @@
 $servername = 'localhost:3306';
 $username = 'root';
 $password = '';
-$database = 'MyPandabd';
+$database = 'mypandabd';
 
 // Crea una conexión a la base de datos
 $conn = new mysqli($servername, $username, $password, $database);
+if ($conn->connect_error) {
+    die("Error de conexión: " . $conn->connect_error);
+}
 
 // Verifica la conexión
 if ($conn->connect_error) {
