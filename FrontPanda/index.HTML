@@ -3,29 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Login | PANDA</title>
-    <link rel="stylesheet" href="CSS/Estilos.CSS">
+    <title>Login</title>
+    <link rel="stylesheet" href="CSS/styles.css">
+    <link rel="shortcut icon" href="images/favicon/favicon-32x32.png" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/49f031506e.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+    <link rel="shortcut icon" href="IMG/PANDA icon.ico" type="image/x-icon">
 </head>
 <body>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has('error')) {
+    document.addEventListener('DOMContentLoaded', () => {
+      const errorDiv = document.createElement('div');
+      errorDiv.textContent = "⚠️ Usuario o contraseña incorrectos.";
+      errorDiv.style.color = "red";
+      errorDiv.style.marginBottom = "15px";
+      errorDiv.style.textAlign = "center";
+      document.querySelector("form").prepend(errorDiv);
+    });
+  }
+</script>
 
     <div class= "login-box">
         <img class="avatar" src="IMG/PANDA.webp" alt="Logo de PANDA">
         <h1>PANDA</h1>
-        <form>
-            <!-- usuario!> -->
+        <form action="login.php" method="POST">
             <label for="username">Usuario</label>
-            <input type="text" placeholder="Enter username">
-
-            <!-- //contraseña// -->
+            <input type="text" name="username" placeholder="Ingrese usuario" required>
+    
             <label for="password">Contraseña</label>
-            <input type="password" placeholder="Enter password">
+            <input type="password" name="password" placeholder="Ingrese contraseña" required>
 
             <input type="submit" value="Iniciar sesión">
-            <a href="">Olvidé mi contraseña</a><br>
-            <a href="Login.html">Registrarse</a>    
-
+            <a href="#">Olvidé mi contraseña</a><br>
+             <a href="Registrar.html">Registrarse</a>
         </form>
     </div>
+    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
     
 </body>
 </html>
