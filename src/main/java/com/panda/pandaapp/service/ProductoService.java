@@ -21,10 +21,12 @@ import java.util.Optional;
 public class ProductoService {
 
     private final ProductoRepository productoRepository;
-@Autowired
-public ProductoService(ProductoRepository productoRepository) {
-    this.productoRepository = productoRepository;
-}
+
+    @Autowired
+    public ProductoService(ProductoRepository productoRepository) {
+        this.productoRepository = productoRepository;
+    }
+
     /**
      * Obtiene todos los productos del sistema.
      * @return Lista de todos los productos
