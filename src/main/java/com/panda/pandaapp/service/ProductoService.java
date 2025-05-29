@@ -5,7 +5,7 @@ import com.panda.pandaapp.repository.ProductoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 //Elimina esta linea
 //import org.springframework.transaction.annotation.Transactional;
